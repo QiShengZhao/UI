@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>钢铁数据分析界面</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/datatables.net-bs5@1.13.1/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    <style>
+        .card {
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .chart-container {
+            height: 300px;
+            margin-bottom: 20px;
+        }
+        .navbar-brand {
+            font-size: 1.35rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        .navbar-brand .university-name {
+            color: #ffcc00; /* 大学金色 */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        .brand-separator {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        .brand-system {
+            color: rgba(255, 255, 255, 0.9);
+        }
+        .nav-link.active {
+            font-weight: bold;
+            color: #0d6efd !important;
+        }
+        #data-table_wrapper {
+            margin-top: 20px;
+        }
+        .filter-section {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .stats-card {
+            transition: transform 0.3s;
+        }
+        .stats-card:hover {
+            transform: translateY(-5px);
+        }
+        .deepseek-content h5 {
+            color: #0d6efd;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+        .deepseek-content p {
+            text-align: justify;
+            line-height: 1.6;
+        }
+        .deepseek-content ul, .deepseek-content ol {
+            margin-left: 1rem;
+        }
+        #deepseek-analysis-card {
+            box-shadow: 0 8px 24px rgba(13, 110, 253, 0.15);
+            border-radius: 10px;
+            border: none;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        #deepseek-analysis-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 28px rgba(13, 110, 253, 0.25);
+        }
+        #deepseek-analysis-card .card-header {
+            background: linear-gradient(135deg, #2979ff, #0d47a1);
+            border: none;
+            padding: 15px 20px;
+        }
+        #deepseek-analysis-card .card-body {
+            padding: 25px;
+            background-color: #f8f9ff;
+        }
+        .deepseek-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        .deepseek-section-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e7e9fd;
+        }
+        .deepseek-section-title i {
+            margin-right: 10px;
+            color: #0d6efd;
+        }
+        .suggestion-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+        .suggestion-item i {
+            color: #28a745;
+            margin-right: 10px;
+            margin-top: 3px;
+        }
+        .analysis-highlight {
+            background-color: rgba(13, 110, 253, 0.08);
+            border-left: 3px solid #0d6efd;
+            padding: 12px 15px;
+            margin: 15px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        #deepseek-analysis-card {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        
+        /* Markdown 内容样式 */
+        .deepseek-content-section h1, 
+        .deepseek-content-section h2, 
+        .deepseek-content-section h3, 
+        .deepseek-content-section h4 {
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            color: #0d6efd;
+            font-weight: 600;
+        }
+        
+        .deepseek-content-section ul, 
+        .deepseek-content-section ol {
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .deepseek-content-section li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .deepseek-content-section p {
+            margin-bottom: 0.75rem;
+            text-align: justify;
+        }
+        
+        .deepseek-content-section code {
+            background-color: #f5f5f5;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: Consolas, Monaco, monospace;
+        }
+        
+        .deepseek-content-section table {
+            width: 100%;
+            margin-bottom: 1rem;
+            border-collapse: collapse;
+        }
+        
+        .deepseek-content-section th, 
+        .deepseek-content-section td {
+            padding: 0.5rem;
+            border: 1px solid #dee2e6;
+        }
+        
+        .deepseek-content-section th {
+            background-color: #f8f9fa;
+        }
+        
+        .deepseek-content-section blockquote {
+            border-left: 3px solid #0d6efd;
+            padding-left: 1rem;
+            color: #6c757d;
+            font-style: italic;
+            margin-left: 0;
+            margin-right: 0;
+        }
+        
+        /* 上传文件样式 */
+        #uploadModal .modal-header {
+            background: linear-gradient(135deg, #2979ff, #0d47a1);
+        }
+        
+        .upload-icon {
+            font-size: 2rem;
+            color: #0d6efd;
+            margin-bottom: 1rem;
+        }
+        
+        .file-upload-area {
+            border: 2px dashed #dee2e6;
+            border-radius: 5px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .file-upload-area:hover {
+            border-color: #0d6efd;
+            background-color: rgba(13, 110, 253, 0.05);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <span class="university-name">天津中德应用技术大学</span>
+                <span class="brand-separator mx-1">|</span>
+                <span class="brand-system">钢铁数据分析系统</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#dashboard">仪表盘</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#data-view">数据视图</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#analysis">数据分析</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#uploadModal">
+                            <i class="bi bi-upload"></i> 上传数据
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="export-data">
+                            <i class="bi bi-download"></i> 导出数据
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="download-report">
+                            <i class="bi bi-file-earmark-pdf"></i> 下载报告
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 数据上传模态框 -->
+    <div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="uploadModalLabel"><i class="bi bi-upload"></i> 上传数据文件</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="file-upload-area mb-3">
+                        <div class="upload-icon">
+                            <i class="bi bi-file-earmark-arrow-up"></i>
+                        </div>
+                        <label for="csv-file" class="form-label">选择CSV数据文件</label>
+                        <input class="form-control" type="file" id="csv-file" accept=".csv">
+                        <div class="form-text mt-2">支持UTF-8编码的CSV文件，第一行必须包含列标题</div>
+                    </div>
+                    <div id="upload-progress" class="progress d-none">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
+                    </div>
+                    <div id="upload-result" class="mt-3 d-none">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" id="upload-button">上传并加载</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid mt-4">
+        <!-- Dashboard Section -->
+        <div id="dashboard" class="mb-5">
+            <div class="row mb-4">
+                <div class="col-12">
+                    <h2>仪表盘概览</h2>
+                    <p class="text-muted">钢铁材料参数与强度分析系统</p>
+                </div>
+            </div>
+
+            <!-- Filter Section -->
+            <div class="filter-section mb-4">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label for="element-filter" class="form-label">元素筛选</label>
+                        <select id="element-filter" class="form-select">
+                            <option value="all">全部元素</option>
+                            <option value="C">C (碳)</option>
+                            <option value="Si">Si (硅)</option>
+                            <option value="Mn">Mn (锰)</option>
+                            <option value="P">P (磷)</option>
+                            <option value="S">S (硫)</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="strength-filter" class="form-label">强度范围</label>
+                        <select id="strength-filter" class="form-select">
+                            <option value="all">全部范围</option>
+                            <option value="low">低强度 (< 500 MPa)</option>
+                            <option value="medium">中强度 (500-550 MPa)</option>
+                            <option value="high">高强度 (> 550 MPa)</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="thickness-filter" class="form-label">厚度范围 (mm)</label>
+                        <select id="thickness-filter" class="form-select">
+                            <option value="all">全部厚度</option>
+                            <option value="thin">薄板 (< 50 mm)</option>
+                            <option value="medium">中厚板 (50-80 mm)</option>
+                            <option value="thick">厚板 (> 80 mm)</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="date-filter" class="form-label">数据过滤</label>
+                        <button id="apply-filter" class="btn btn-primary w-100">应用筛选</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="row mb-4">
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="card stats-card bg-primary text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">数据总量</h5>
+                            <h2 id="total-count">4,674</h2>
+                            <p class="card-text">总记录数</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="card stats-card bg-success text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">平均屈服强度</h5>
+                            <h2 id="avg-yield">386.5 MPa</h2>
+                            <p class="card-text">所有样本</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="card stats-card bg-info text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">平均抗拉强度</h5>
+                            <h2 id="avg-tensile">536.8 MPa</h2>
+                            <p class="card-text">所有样本</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="card stats-card bg-warning text-dark">
+                        <div class="card-body">
+                            <h5 class="card-title">平均延伸率</h5>
+                            <h2 id="avg-elongation">29.3%</h2>
+                            <p class="card-text">所有样本</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="card stats-card bg-danger text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">平均韧性值</h5>
+                            <h2 id="avg-toughness">185.6</h2>
+                            <p class="card-text">所有样本</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts -->
+            <div class="row mb-4">
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>元素含量与抗拉强度关系</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="element-strength-chart" class="chart-container"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>工艺参数与强度关系</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="process-strength-chart" class="chart-container"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>强度分布</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="strength-distribution-chart" class="chart-container"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>厚度分布</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="thickness-distribution-chart" class="chart-container"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>热处理参数分布</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="heat-treatment-chart" class="chart-container"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>韧性与成分关系分析</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="toughness-chart" class="chart-container"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Table Section -->
+        <div id="data-view" class="mb-5" style="display: none;">
+            <div class="row mb-4">
+                <div class="col-12">
+                    <h2>数据表格视图</h2>
+                    <p class="text-muted">所有钢铁数据的详细表格</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="data-table" class="table table-striped table-bordered" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>C</th>
+                                    <th>Si</th>
+                                    <th>Mn</th>
+                                    <th>P</th>
+                                    <th>S</th>
+                                    <th>Alt</th>
+                                    <th>Cr</th>
+                                    <th>Cu</th>
+                                    <th>模型计算值</th>
+                                    <th>在炉时间</th>
+                                    <th>出炉温度</th>
+                                    <th>终扎厚度</th>
+                                    <th>屈服强度</th>
+                                    <th>抗拉强度</th>
+                                    <th>延伸率</th>
+                                    <th>韧性值</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Data will be loaded dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analysis Section -->
+        <div id="analysis" class="mb-5" style="display: none;">
+            <div class="row mb-4">
+                <div class="col-12">
+                    <h2>数据分析</h2>
+                    <p class="text-muted">钢铁元素与强度相关性分析</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>元素相关性热图</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="correlation-heatmap" class="chart-container" style="height: 400px; width: 100%; min-height: 400px;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>主要因素影响分析</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="factor-analysis-chart" class="chart-container" style="height: 400px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>参数优化预测模型</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label for="predict-c" class="form-label">碳含量 (C) %</label>
+                                        <input type="number" class="form-control" id="predict-c" step="0.01" value="0.15">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="predict-si" class="form-label">硅含量 (Si) %</label>
+                                        <input type="number" class="form-control" id="predict-si" step="0.01" value="0.30">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="predict-mn" class="form-label">锰含量 (Mn) %</label>
+                                        <input type="number" class="form-control" id="predict-mn" step="0.01" value="1.45">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label for="predict-temp" class="form-label">出炉温度 (°C)</label>
+                                        <input type="number" class="form-control" id="predict-temp" step="1" value="1220">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="predict-thickness" class="form-label">终扎厚度 (mm)</label>
+                                        <input type="number" class="form-control" id="predict-thickness" step="0.1" value="70">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="predict-cool-temp" class="form-label">水冷后温度 (°C)</label>
+                                        <input type="number" class="form-control" id="predict-cool-temp" step="1" value="670">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card h-100 bg-light">
+                                        <div class="card-body">
+                                            <h5 class="card-title">预测结果</h5>
+                                            <div class="mt-4">
+                                                <p><strong>预测屈服强度:</strong> <span id="predicted-yield">385 MPa</span></p>
+                                                <p><strong>预测抗拉强度:</strong> <span id="predicted-tensile">540 MPa</span></p>
+                                                <p><strong>预测延伸率:</strong> <span id="predicted-elongation">30%</span></p>
+                                                <p><strong>预测韧性值:</strong> <span id="predicted-toughness">185</span></p>
+                                                <button id="predict-button" class="btn btn-primary mt-3 w-100">计算预测</button>
+                                                <div id="prediction-loading" class="text-center mt-3" style="display: none;">
+                                                    <div class="spinner-border text-primary" role="status">
+                                                        <span class="visually-hidden">加载中...</span>
+                                                    </div>
+                                                    <p class="mt-2">正在分析数据...</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-lg-12">
+                    <div id="deepseek-analysis-card" class="card" style="display: none;">
+                        <div class="card-header bg-primary text-white">
+                            <h5><i class="bi bi-braces-asterisk"></i> DeepSeek AI 专业分析与建议</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="deepseek-section">
+                                        <div class="deepseek-section-title">
+                                            <i class="bi bi-gear-wide-connected"></i>
+                                            <h5 class="mb-0">材料成分分析</h5>
+                                        </div>
+                                        <div id="composition-analysis" class="deepseek-content-section"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="deepseek-section">
+                                        <div class="deepseek-section-title">
+                                            <i class="bi bi-radioactive"></i>
+                                            <h5 class="mb-0">工艺参数评估</h5>
+                                        </div>
+                                        <div id="process-analysis" class="deepseek-content-section"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="deepseek-section">
+                                        <div class="deepseek-section-title">
+                                            <i class="bi bi-graph-up-arrow"></i>
+                                            <h5 class="mb-0">性能平衡优化</h5>
+                                        </div>
+                                        <div id="performance-analysis" class="deepseek-content-section"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="deepseek-section mt-4">
+                                <div class="deepseek-section-title">
+                                    <i class="bi bi-lightbulb"></i>
+                                    <h5 class="mb-0">优化建议</h5>
+                                </div>
+                                <div id="optimization-suggestions" class="deepseek-content-section"></div>
+                            </div>
+                            
+                            <div id="deepseek-analysis" class="d-none"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 报告下载模态框 -->
+    <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="reportModalLabel"><i class="bi bi-file-earmark-pdf"></i> 下载分析报告</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">报告内容选项</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="include-summary" checked>
+                            <label class="form-check-label" for="include-summary">
+                                数据统计概览
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="include-charts" checked>
+                            <label class="form-check-label" for="include-charts">
+                                图表分析
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="include-correlation" checked>
+                            <label class="form-check-label" for="include-correlation">
+                                相关性分析
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="include-ai-analysis" checked>
+                            <label class="form-check-label" for="include-ai-analysis">
+                                AI 分析建议
+                            </label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="report-title" class="form-label">报告标题</label>
+                        <input type="text" class="form-control" id="report-title" value="钢铁材料分析报告">
+                    </div>
+                    <div class="mb-3">
+                        <label for="report-format" class="form-label">报告格式</label>
+                        <select class="form-select" id="report-format">
+                            <option value="pdf" selected>PDF 文档</option>
+                            <option value="html">HTML 网页</option>
+                        </select>
+                    </div>
+                    <div id="report-progress" class="progress d-none mt-3">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
+                    </div>
+                    
+                    <hr class="my-4">
+                    
+                    <div class="mb-3">
+                        <h5 class="mb-3"><i class="bi bi-clock-history"></i> 历史报告</h5>
+                        <div id="recent-reports" class="rounded border p-3 bg-light">
+                            <!-- 历史报告将会动态加载 -->
+                            <p class="text-muted">正在加载历史报告...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="generate-report-button">生成并下载</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-light py-4 mt-5">
+        <div class="container text-center">
+            <p class="mb-2">天津中德应用技术大学 | 钢铁材料数据分析系统</p>
+            <p class="small text-muted mb-0">© 2025 版权所有 | 机械工程学院--飞飞</p>
+        </div>
+    </footer>
+
+    <!-- 通知提示容器 -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.0/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/datatables.net@1.13.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/datatables.net-bs5@1.13.1/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked@4.3.0/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html> 
