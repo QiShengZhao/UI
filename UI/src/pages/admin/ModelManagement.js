@@ -247,21 +247,21 @@ const ModelManagement = () => {
                 label: '韧性模型',
                 children: (
                   <div className="model-details">
-                    <Descriptions bordered column={2}>
-                      <Descriptions.Item label="模型类型">随机森林回归</Descriptions.Item>
-                      <Descriptions.Item label="模型精度">89.2%</Descriptions.Item>
-                      <Descriptions.Item label="特征数量">
-                        {modelFeatures.toughness?.expected_feature_count || '未知'}
-                      </Descriptions.Item>
-                      <Descriptions.Item label="训练数据量">892条</Descriptions.Item>
-                      <Descriptions.Item label="模型路径">韧性/best_rf_model_chinese.pkl</Descriptions.Item>
-                      <Descriptions.Item label="缩放器路径">韧性/rf_feature_scaler_chinese.pkl</Descriptions.Item>
-                    </Descriptions>
-                    
-                    <Title level={5} style={{ marginTop: 16 }}>主要特征</Title>
-                    <Paragraph>
-                      碳含量(C)、硅含量(Si)、锰含量(Mn)、出炉温度、终扎厚度、水冷温度
-                    </Paragraph>
+                <Descriptions bordered column={2}>
+                  <Descriptions.Item label="模型类型">随机森林回归</Descriptions.Item>
+                  <Descriptions.Item label="模型精度">89.2%</Descriptions.Item>
+                  <Descriptions.Item label="特征数量">
+                    {modelFeatures.toughness?.expected_feature_count || '未知'}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="训练数据量">892条</Descriptions.Item>
+                  <Descriptions.Item label="模型路径">韧性/best_rf_model_chinese.pkl</Descriptions.Item>
+                  <Descriptions.Item label="缩放器路径">韧性/rf_feature_scaler_chinese.pkl</Descriptions.Item>
+                </Descriptions>
+                
+                <Title level={5} style={{ marginTop: 16 }}>主要特征</Title>
+                <Paragraph>
+                  碳含量(C)、硅含量(Si)、锰含量(Mn)、出炉温度、终扎厚度、水冷温度
+                </Paragraph>
                   </div>
                 )
               },
@@ -270,21 +270,21 @@ const ModelManagement = () => {
                 label: '屈服强度模型',
                 children: (
                   <div className="model-details">
-                    <Descriptions bordered column={2}>
-                      <Descriptions.Item label="模型类型">随机森林回归</Descriptions.Item>
-                      <Descriptions.Item label="模型精度">92.5%</Descriptions.Item>
-                      <Descriptions.Item label="特征数量">
-                        {modelFeatures.yield_strength?.expected_feature_count || '未知'}
-                      </Descriptions.Item>
-                      <Descriptions.Item label="训练数据量">1024条</Descriptions.Item>
-                      <Descriptions.Item label="模型路径">屈服强度/rf_model.pkl</Descriptions.Item>
-                      <Descriptions.Item label="缩放器路径">屈服强度/scaler.pkl</Descriptions.Item>
-                    </Descriptions>
-                    
-                    <Title level={5} style={{ marginTop: 16 }}>主要特征</Title>
-                    <Paragraph>
-                      碳含量(C)、硅含量(Si)、锰含量(Mn)、出炉温度、终扎厚度、水冷温度
-                    </Paragraph>
+                <Descriptions bordered column={2}>
+                  <Descriptions.Item label="模型类型">随机森林回归</Descriptions.Item>
+                  <Descriptions.Item label="模型精度">92.5%</Descriptions.Item>
+                  <Descriptions.Item label="特征数量">
+                    {modelFeatures.yield_strength?.expected_feature_count || '未知'}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="训练数据量">1024条</Descriptions.Item>
+                  <Descriptions.Item label="模型路径">屈服强度/rf_model.pkl</Descriptions.Item>
+                  <Descriptions.Item label="缩放器路径">屈服强度/scaler.pkl</Descriptions.Item>
+                </Descriptions>
+                
+                <Title level={5} style={{ marginTop: 16 }}>主要特征</Title>
+                <Paragraph>
+                  碳含量(C)、硅含量(Si)、锰含量(Mn)、出炉温度、终扎厚度、水冷温度
+                </Paragraph>
                   </div>
                 )
               },
@@ -293,21 +293,21 @@ const ModelManagement = () => {
                 label: '抗拉强度模型',
                 children: (
                   <div className="model-details">
-                    <Descriptions bordered column={2}>
-                      <Descriptions.Item label="模型类型">XGBoost回归</Descriptions.Item>
-                      <Descriptions.Item label="模型精度">91.8%</Descriptions.Item>
-                      <Descriptions.Item label="特征数量">
-                        {modelFeatures.tensile_strength?.expected_feature_count || '未知'}
-                      </Descriptions.Item>
-                      <Descriptions.Item label="训练数据量">1024条</Descriptions.Item>
-                      <Descriptions.Item label="模型路径">抗拉强度/xgb_model.pkl</Descriptions.Item>
-                      <Descriptions.Item label="缩放器路径">抗拉强度/scaler.pkl</Descriptions.Item>
-                    </Descriptions>
-                    
-                    <Title level={5} style={{ marginTop: 16 }}>主要特征</Title>
-                    <Paragraph>
-                      碳含量(C)、硅含量(Si)、锰含量(Mn)、出炉温度、终扎厚度、水冷温度
-                    </Paragraph>
+                <Descriptions bordered column={2}>
+                  <Descriptions.Item label="模型类型">XGBoost回归</Descriptions.Item>
+                  <Descriptions.Item label="模型精度">91.8%</Descriptions.Item>
+                  <Descriptions.Item label="特征数量">
+                    {modelFeatures.tensile_strength?.expected_feature_count || '未知'}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="训练数据量">1024条</Descriptions.Item>
+                  <Descriptions.Item label="模型路径">抗拉强度/xgb_model.pkl</Descriptions.Item>
+                  <Descriptions.Item label="缩放器路径">抗拉强度/scaler.pkl</Descriptions.Item>
+                </Descriptions>
+                
+                <Title level={5} style={{ marginTop: 16 }}>主要特征</Title>
+                <Paragraph>
+                  碳含量(C)、硅含量(Si)、锰含量(Mn)、出炉温度、终扎厚度、水冷温度
+                </Paragraph>
                   </div>
                 )
               },
@@ -316,30 +316,30 @@ const ModelManagement = () => {
                 label: '伸长率模型',
                 children: (
                   <div className="model-details">
-                    <Descriptions bordered column={2}>
-                      <Descriptions.Item label="模型类型">随机森林回归</Descriptions.Item>
-                      <Descriptions.Item label="模型精度">87.6%</Descriptions.Item>
-                      <Descriptions.Item label="特征数量">
-                        {modelFeatures.elongation?.expected_feature_count || '未知'}
-                      </Descriptions.Item>
-                      <Descriptions.Item label="训练数据量">768条</Descriptions.Item>
-                      <Descriptions.Item label="模型路径">伸长率/模型/rf_elongation_model.pkl</Descriptions.Item>
-                      <Descriptions.Item label="缩放器路径">伸长率/模型/rf_elongation_scaler.pkl</Descriptions.Item>
-                    </Descriptions>
-                    
-                    <Title level={5} style={{ marginTop: 16 }}>主要特征</Title>
-                    <Paragraph>
-                      碳含量(C)、硅含量(Si)、锰含量(Mn)、出炉温度、终扎厚度、水冷温度、屈服强度、抗拉强度
-                    </Paragraph>
-                    
-                    <Button 
-                      type="primary" 
-                      icon={<ToolOutlined />}
-                      onClick={() => setShowTrainModal(true)}
-                      style={{ marginTop: 16 }}
-                    >
-                      训练新模型
-                    </Button>
+                <Descriptions bordered column={2}>
+                  <Descriptions.Item label="模型类型">随机森林回归</Descriptions.Item>
+                  <Descriptions.Item label="模型精度">87.6%</Descriptions.Item>
+                  <Descriptions.Item label="特征数量">
+                    {modelFeatures.elongation?.expected_feature_count || '未知'}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="训练数据量">768条</Descriptions.Item>
+                  <Descriptions.Item label="模型路径">伸长率/模型/rf_elongation_model.pkl</Descriptions.Item>
+                  <Descriptions.Item label="缩放器路径">伸长率/模型/rf_elongation_scaler.pkl</Descriptions.Item>
+                </Descriptions>
+                
+                <Title level={5} style={{ marginTop: 16 }}>主要特征</Title>
+                <Paragraph>
+                  碳含量(C)、硅含量(Si)、锰含量(Mn)、出炉温度、终扎厚度、水冷温度、屈服强度、抗拉强度
+                </Paragraph>
+                
+                <Button 
+                  type="primary" 
+                  icon={<ToolOutlined />}
+                  onClick={() => setShowTrainModal(true)}
+                  style={{ marginTop: 16 }}
+                >
+                  训练新模型
+                </Button>
                   </div>
                 )
               }

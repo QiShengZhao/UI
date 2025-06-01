@@ -311,7 +311,7 @@ const PredictionForm = () => {
                     </Button>
                   </Space>
                 </div>
-
+                
                 {batchMode ? (
                   <div>
                     <FileUploader
@@ -321,18 +321,18 @@ const PredictionForm = () => {
                     />
                     
                     <div style={{ marginTop: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      {batchData.length > 0 && (
+                    {batchData.length > 0 && (
                         <Text>已加载 {batchData.length} 条记录</Text>
                       )}
-                      <Button 
-                        type="primary"
-                        onClick={handleBatchPredict}
-                        loading={batchPredicting}
+                        <Button 
+                          type="primary" 
+                          onClick={handleBatchPredict}
+                          loading={batchPredicting}
                         disabled={!batchData.length}
-                      >
-                        开始批量预测
-                      </Button>
-                    </div>
+                        >
+                          开始批量预测
+                        </Button>
+                      </div>
                   </div>
                 ) : (
                   <Form
@@ -355,7 +355,7 @@ const PredictionForm = () => {
                           name="carbon"
                           label={
                             <span>
-                              碳含量 (C)
+                              碳含量 (C) 
                               <Tooltip title="碳含量范围: 0.08-0.20">
                                 <InfoCircleOutlined style={{ marginLeft: 4 }} />
                               </Tooltip>
