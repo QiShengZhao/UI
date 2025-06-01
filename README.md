@@ -268,8 +268,5 @@ python csv_processor.py
 
 本项目采用 [LICENSE] 许可证 - 详情请参阅 LICENSE 文件。
 
-## 联系方式
 
-项目维护者 - [维护者邮箱]
 
-项目链接: [项目仓库URL] 
