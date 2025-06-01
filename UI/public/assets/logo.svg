@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景圆 -->
+  <circle cx="100" cy="100" r="90" fill="#1f3a60"/>
+  
+  <!-- 钢铁符号 -->
+  <g fill="#ffffff">
+    <!-- 钢轨/钢材 -->
+    <rect x="50" y="70" width="100" height="15" rx="2"/>
+    <rect x="50" y="95" width="100" height="15" rx="2"/>
+    <rect x="50" y="120" width="100" height="15" rx="2"/>
+    
+    <!-- 连接线 -->
+    <rect x="65" y="70" width="10" height="65" rx="2"/>
+    <rect x="125" y="70" width="10" height="65" rx="2"/>
+  </g>
+  
+  <!-- 数据分析元素 -->
+  <g fill="#3182ce">
+    <!-- 柱状图 -->
+    <rect x="85" y="50" width="10" height="20" rx="2"/>
+    <rect x="105" y="40" width="10" height="30" rx="2"/>
+    
+    <!-- 折线图 -->
+    <path d="M50,150 L70,140 L90,145 L110,130 L130,142 L150,132" 
+          stroke="#3182ce" stroke-width="4" fill="none" stroke-linecap="round"/>
+    
+    <!-- 数据点 -->
+    <circle cx="70" cy="140" r="4" fill="#3182ce"/>
+    <circle cx="90" cy="145" r="4" fill="#3182ce"/>
+    <circle cx="110" cy="130" r="4" fill="#3182ce"/>
+    <circle cx="130" cy="142" r="4" fill="#3182ce"/>
+    <circle cx="150" cy="132" r="4" fill="#3182ce"/>
+  </g>
+  
+  <!-- 边框 -->
+  <circle cx="100" cy="100" r="90" fill="none" stroke="#ffffff" stroke-width="4"/>
+</svg> 
